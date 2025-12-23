@@ -1,0 +1,16 @@
+steps:
+  - name: "gcr.io/cloud-builders/gcloud"
+    entrypoint: bash
+    args:
+      - "-c"
+      - |
+        echo "Fetching secrets from Secret Manager..."
+
+        export DB_PASSWORD=$(gcloud secrets versions access latest --secret=db-password)
+        export API_KEY=$(gcloud secrets versions access latest --secret=api-key)
+
+        echo "Deploying to App Engine..."
+        gcloud app deploy --quiet \
+          --service-account=appengine-deployer@PROJECT_ID.iam.gserviceaccount.com
+
+timeout: "1200s"
