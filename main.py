@@ -13,6 +13,3 @@ def hello():
         f"DB_PASSWORD loaded: {'yes' if db_password != 'not-set' else 'no'}\n"
         f"API_KEY loaded: {'yes' if api_key != 'not-set' else 'no'}\n"
     )
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8080)
