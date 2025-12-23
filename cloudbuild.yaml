@@ -1,5 +1,4 @@
 steps:
-  # Step 1: Fetch secrets from Secret Manager
   - name: 'gcr.io/cloud-builders/gcloud'
     entrypoint: 'bash'
     args:
@@ -8,10 +7,11 @@ steps:
         echo "Fetching secrets..."
         export DB_PASSWORD=$(gcloud secrets versions access latest --secret=db-password)
         export API_KEY=$(gcloud secrets versions access latest --secret=api-key)
-        
-        # Deploy to App Engine using Cloud Build's own SA
+
         echo "Deploying to App Engine..."
-        gcloud app deploy app.yaml --quiet
+        gcloud app deploy app.yaml \
+          --quiet \
+          --impersonate-service-account=appengine-deployer-opportune-l@opportune-lore-482118-q1.iam.gserviceaccount.com
 
 timeout: '1200s'
 
