@@ -10,7 +10,9 @@ steps:
       export API_KEY=$(gcloud secrets versions access latest --secret=api-key)
 
       echo "Deploying to App Engine..."
-      gcloud app deploy app.yaml --quiet
+      gcloud app deploy app.yaml \
+        --quiet \
+        --impersonate-service-account=appengine-deployer-opportune-l@opportune-lore-482118-q1.iam.gserviceaccount.com
 
 timeout: '1200s'
 
