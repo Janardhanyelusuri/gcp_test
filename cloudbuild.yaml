@@ -7,3 +7,6 @@ steps:
       - --service-account=appengine-deployer@opportune-lore-482118-q1.iam.gserviceaccount.com
 
 timeout: "1200s"
+
+options:
+  logging: CLOUD_LOGGING_ONLY
