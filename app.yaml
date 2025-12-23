@@ -1,0 +1,11 @@
+runtime: python311
+
+entrypoint: gunicorn -b :$PORT main:app
+
+env_variables:
+  DB_PASSWORD: ${DB_PASSWORD}
+  API_KEY: ${API_KEY}
+
+automatic_scaling:
+  min_instances: 0
+  max_instances: 1
