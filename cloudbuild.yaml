@@ -4,7 +4,7 @@ steps:
       - app
       - deploy
       - --quiet
-      - --service-account=appengine-deployer@opportune-lore-482118-q1.iam.gserviceaccount.com
+      - --service-account=appengine-deployer-opportune-l@opportune-lore-482118-q1.iam.gserviceaccount.com
 
 timeout: "1200s"
 
