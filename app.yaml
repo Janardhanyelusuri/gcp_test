@@ -3,8 +3,8 @@ runtime: python311
 entrypoint: gunicorn -b :$PORT main:app
 
 env_variables:
-  DB_PASSWORD: ${DB_PASSWORD}
-  API_KEY: ${API_KEY}
+  DB_PASSWORD: "projects/opportune-lore-482118-q1/secrets/db-password/versions/latest"
+  API_KEY: "projects/opportune-lore-482118-q1/secrets/api-key/versions/latest"
 
 automatic_scaling:
   min_instances: 0
