@@ -23,7 +23,7 @@ env_variables:
   ENVIRONMENT: 'production'
   LOG_LEVEL: 'INFO'
   # Add your GCP project ID here
-  GCP_PROJECT_ID: 'YOUR-PROJECT-ID'  # Replace with actual project ID
+  GCP_PROJECT_ID: 'zippy-aurora-482207-a2  # Replace with actual project ID
 
 # Health checks
 liveness_check:
