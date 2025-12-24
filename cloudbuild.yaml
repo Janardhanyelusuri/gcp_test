@@ -1,20 +1,50 @@
+# Cloud Build configuration for Python Flask App Engine deployment
+# This file is triggered automatically by Git webhooks
+
 steps:
-# Step 1: Fetch secrets
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      echo "Fetching secrets..."
-      export DB_PASSWORD=$(gcloud secrets versions access latest --secret=db-password)
-      export API_KEY=$(gcloud secrets versions access latest --secret=api-key)
+  # Step 1: Install dependencies (for testing)
+  - name: 'python:3.11'
+    id: 'install-dependencies'
+    entrypoint: 'pip'
+    args: ['install', '-r', 'requirements.txt', '--user']
+    
+  # Step 2: Run tests (if you have them)
+  # Uncomment when you add tests
+  # - name: 'python:3.11'
+  #   id: 'run-tests'
+  #   entrypoint: 'python'
+  #   args: ['-m', 'pytest', 'tests/']
+  #   waitFor: ['install-dependencies']
+  #   env:
+  #     - 'ENVIRONMENT=test'
+    
+  # Step 3: Deploy to App Engine
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: 'deploy-to-appengine'
+    args:
+      - 'app'
+      - 'deploy'
+      - 'app.yaml'
+      - '--quiet'
+      - '--promote'
+      - '--stop-previous-version'
+    timeout: '1600s'
 
-      echo "Deploying to App Engine..."
-      gcloud auth print-access-token | gcloud auth activate-service-account \
-          --key-file=/path/to/service-account.json
-      gcloud app deploy app.yaml --quiet
+# CRITICAL: Service account to use for deployment
+# Replace with your service account email
+serviceAccount: 'projectsapp-engine-ci-cd@zippy-aurora-482207-a2.iam.gserviceaccount.com'
 
-timeout: '1200s'
+# Build timeout
+timeout: '2000s'
 
+# Build options
 options:
+  machineType: 'N1_HIGHCPU_8'
   logging: CLOUD_LOGGING_ONLY
+  
+# Tags for organization
+tags: ['app-engine', 'python', 'production', 'automated-deployment']
+
+# Note: Secrets are NOT accessed in Cloud Build
+# They are accessed at runtime by the application using Secret Manager client library
+# This is more secure than passing secrets through environment variables
