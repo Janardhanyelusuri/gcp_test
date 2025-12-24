@@ -1,47 +1,38 @@
 runtime: python311
 
-# Entrypoint for production
 entrypoint: gunicorn -b :$PORT main:app
 
-# Instance configuration for production
 instance_class: F1
 
-# Automatic scaling configuration
 automatic_scaling:
   target_cpu_utilization: 0.65
-  min_instances: 1  # Changed from 0 - keeps app warm, faster responses
-  max_instances: 10  # Increased from 1 - allows scaling under load
+  min_instances: 1
+  max_instances: 10
   min_idle_instances: 1
   max_idle_instances: automatic
   min_pending_latency: 30ms
   max_pending_latency: automatic
 
-# Environment variables
-# NOTE: Do NOT put secret values directly here
-# Secrets are accessed programmatically in Python code using Secret Manager client library
 env_variables:
-  ENVIRONMENT: 'production'
-  LOG_LEVEL: 'INFO'
-  # Add your GCP project ID here
-  GCP_PROJECT_ID: 'zippy-aurora-482207-a2  # Replace with actual project ID
+  ENVIRONMENT: production
+  LOG_LEVEL: INFO
+  GCP_PROJECT_ID: direct-will-445115-r9
 
-# Health checks
 liveness_check:
-  path: "/health"
+  path: /health
   check_interval_sec: 30
   timeout_sec: 4
   failure_threshold: 2
   success_threshold: 2
 
 readiness_check:
-  path: "/health"
+  path: /health
   check_interval_sec: 5
   timeout_sec: 4
   failure_threshold: 2
   success_threshold: 2
   app_start_timeout_sec: 300
 
-# Security - enforce HTTPS
 handlers:
   - url: /.*
     secure: always
