@@ -16,7 +16,7 @@ automatic_scaling:
 env_variables:
   ENVIRONMENT: production
   LOG_LEVEL: INFO
-  GCP_PROJECT_ID: direct-will-445115-r9
+  GCP_PROJECT_ID:	zippy-aurora-482207-a2
 
 liveness_check:
   path: /health
